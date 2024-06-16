@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  List<Map<String, dynamic>> answersForFirstQuestion = [
+    {
+      'title': 'Football',
+      'onPressed': () => debugPrint('Football Choice'),
+    },
+    {
+      'title': 'Basketball',
+      'onPressed': () => debugPrint('Basketball Choice'),
+    },
+    {
+      'title': 'Volleyball',
+      'onPressed': () => debugPrint('Volleyball Choice'),
+    },
+    {
+      'title': 'KicBoxing',
+      'onPressed': () => debugPrint('KicBoxing Choice'),
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,38 +51,22 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 60.0,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Football'),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 60.0,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Basketball'),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 60.0,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Volleyball'),
-                  ),
-                ),
+              Column(
+                children: answersForFirstQuestion.map(
+                  (answerMap) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 40.0,
+                        child: ElevatedButton(
+                          onPressed: answerMap['onPressed'],
+                          child: Text(answerMap['title']),
+                        ),
+                      ),
+                    );
+                  },
+                ).toList(),
               ),
             ],
           ),
