@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/widgets/answer_item.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -45,17 +46,7 @@ class HomePage extends StatelessWidget {
             Column(
               children: answersForFirstQuestion.map(
                 (answerMap) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 40.0,
-                      child: ElevatedButton(
-                        onPressed: answerMap['onPressed'],
-                        child: Text(answerMap['title']),
-                      ),
-                    ),
-                  );
+                  return AnswerItem(answerMap: answerMap);
                 },
               ).toList(),
             ),
