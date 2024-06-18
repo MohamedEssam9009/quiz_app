@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Quiz App',
       theme: ThemeData(useMaterial3: false),
-      home:  HomePage(),
+      home: const HomePage(),
     );
   }
 }
