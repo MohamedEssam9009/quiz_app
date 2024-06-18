@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Column(
-              children: answersForFirstQuestion.map(
+              children: questions[questionIndex].availableAnswers.map(
                 (answerMap) {
                   return AnswerItem(
                     answerMap: answerMap,
