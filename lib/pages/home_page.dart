@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/models/question_item_model.dart';
 import 'package:quiz_app/widgets/answer_item.dart';
+import 'package:quiz_app/widgets/question_item.dart';
+import 'package:quiz_app/widgets/total_score_part.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,17 +30,7 @@ class _HomePageState extends State<HomePage> {
           ? Center(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                    child: Text(
-                      questions[questionIndex].title,
-                      style: const TextStyle(
-                        fontSize: 26.0,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
+                  QuestionItem(questionsItem: questions[questionIndex]),
                   Column(
                     children: questions[questionIndex].availableAnswers.map(
                       (answerMap) {
@@ -61,23 +53,14 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             )
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Congratulations!',
-                    style: TextStyle(
-                      fontSize: 36.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    'Your Score is: $myTotalScore',
-                    style: const TextStyle(fontSize: 22.0),
-                  ),
-                ],
-              ),
+          : TotalScorePart(
+              myTotalScore: myTotalScore,
+              resetQuizOnPressed: () {
+                setState(() {
+                  questionIndex = 0;
+                  myTotalScore = 0;
+                });
+              },
             ),
     );
   }
