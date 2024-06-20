@@ -9,13 +9,23 @@ class QuestionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-      child: Text(
-        questionsItem.title,
-        style: const TextStyle(
-          fontSize: 26.0,
-          fontWeight: FontWeight.w500,
-          color: Colors.blue,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            questionsItem.title,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Colors.black,
+                ),
+          ),
+          const SizedBox(height: 12.0),
+          Text(
+            'Answer and get points',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Colors.grey,
+                ),
+          ),
+        ],
       ),
     );
   }

@@ -22,46 +22,67 @@ class _HomePageState extends State<HomePage> {
     debugPrint('totalScore: $myTotalScore');
     showTotalScore = myTotalScore >= resultedScore;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Quiz App'),
-        centerTitle: true,
-      ),
-      body: !showTotalScore
-          ? Center(
-              child: Column(
-                children: [
-                  QuestionItem(questionsItem: questions[questionIndex]),
-                  Column(
-                    children: questions[questionIndex].availableAnswers.map(
-                      (answerMap) {
-                        return AnswerItem(
-                          answerMap: answerMap,
-                          questionIndexChangeCallBack: () {
-                            if (questionIndex + 1 < questions.length) {
+      // appBar: AppBar(
+      //   title: const Text('Quiz App'),
+      //   centerTitle: true,
+      // ),
+      body: SafeArea(
+        child: !showTotalScore
+            ? Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 50.0),
+                    QuestionItem(questionsItem: questions[questionIndex]),
+                    const SizedBox(height: 30.0),
+                    Column(
+                      children: questions[questionIndex].availableAnswers.map(
+                        (answerMap) {
+                          return AnswerItem(
+                            answerMap: answerMap,
+                            questionIndexChangeCallBack: () {
+                              if (questionIndex + 1 < questions.length) {
+                                setState(() {
+                                  questionIndex += 1;
+                                });
+                              }
                               setState(() {
-                                questionIndex += 1;
+                                myTotalScore += 10;
                               });
-                            }
-                            setState(() {
-                              myTotalScore += 10;
-                            });
-                          },
-                        );
-                      },
-                    ).toList(),
-                  ),
-                ],
+                            },
+                          );
+                        },
+                      ).toList(),
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      height: 60.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                        child: const Text('Next'),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : TotalScorePart(
+                myTotalScore: myTotalScore,
+                resetQuizOnPressed: () {
+                  setState(() {
+                    questionIndex = 0;
+                    myTotalScore = 0;
+                  });
+                },
               ),
-            )
-          : TotalScorePart(
-              myTotalScore: myTotalScore,
-              resetQuizOnPressed: () {
-                setState(() {
-                  questionIndex = 0;
-                  myTotalScore = 0;
-                });
-              },
-            ),
+      ),
     );
   }
 }
