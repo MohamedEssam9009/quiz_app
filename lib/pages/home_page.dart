@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/models/question_item_model.dart';
-import 'package:quiz_app/widgets/answer_item.dart';
-import 'package:quiz_app/widgets/question_item.dart';
-import 'package:quiz_app/widgets/total_score_part.dart';
+
+import '../models/question_item_model.dart';
+import '../widgets/answer_item.dart';
+import '../widgets/question_item.dart';
+import '../widgets/total_score_part.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,8 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int questionIndex = 0;
-  int myTotalScore = 0;
+  int questionIndex = 0, myTotalScore = 0;
+  int answerChosen = -1;
   int resultedScore = questions.length * 10;
   bool showTotalScore = false;
 
@@ -22,10 +23,6 @@ class _HomePageState extends State<HomePage> {
     debugPrint('totalScore: $myTotalScore');
     showTotalScore = myTotalScore >= resultedScore;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Quiz App'),
-      //   centerTitle: true,
-      // ),
       body: SafeArea(
         child: !showTotalScore
             ? Padding(
@@ -37,30 +34,36 @@ class _HomePageState extends State<HomePage> {
                     QuestionItem(questionsItem: questions[questionIndex]),
                     const SizedBox(height: 30.0),
                     Column(
-                      children: questions[questionIndex].availableAnswers.map(
-                        (answerMap) {
-                          return AnswerItem(
-                            answerMap: answerMap,
-                            questionIndexChangeCallBack: () {
-                              if (questionIndex + 1 < questions.length) {
-                                setState(() {
-                                  questionIndex += 1;
-                                });
-                              }
-                              setState(() {
-                                myTotalScore += 10;
-                              });
-                            },
-                          );
-                        },
-                      ).toList(),
+                      children: List.generate(
+                        questions[questionIndex].availableAnswers.length,
+                        (index) => AnswerItem(
+                          answerMap:
+                              questions[questionIndex].availableAnswers[index],
+                          isAnswerChosen: answerChosen == index,
+                          questionIndexChangeCallBack: () {
+                            setState(() {
+                              answerChosen = index;
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     const Spacer(),
                     SizedBox(
                       height: 60.0,
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (questionIndex + 1 < questions.length) {
+                            setState(() {
+                              questionIndex += 1;
+                            });
+                          }
+                          setState(() {
+                            myTotalScore += 10;
+                            answerChosen = -1;
+                          });
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
